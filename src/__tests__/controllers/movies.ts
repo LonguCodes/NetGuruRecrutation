@@ -28,12 +28,12 @@ describe('Movies controller',()=>{
 
     describe('GET /movies', () => {
 
-        test('Empty list', async () => {
+        it('Empty list', async () => {
             const response = await request.get('/movies').expect(200)
             expect(response.body).toEqual([]);
         })
 
-        test('Non-empty list', async () => {
+        it('Non-empty list', async () => {
             const database = GlobalContext.get().getValue(DatasourceBindings.Mongo);
             await database?.collection('movies').insertOne({
                 "Title": "Inter Star Wars 2. The Last Jehi",
@@ -55,12 +55,12 @@ describe('Movies controller',()=>{
 
         })
 
-        test('Passing query', async () => {
+        it('Passing query', async () => {
             const response = await request.get('/movies?testQuery=1').expect(200)
             expect(response.body).toEqual([]);
         })
 
-        test('Subpage', async () => {
+        it('Subpage', async () => {
             const response = await request.get('/movies/1').expect(404)
             expect(response.body).toEqual({code: 404, message: 'NotFound'});
         })
@@ -78,21 +78,21 @@ describe('Movies controller',()=>{
             )
         })
 
-        test('Empty request', async () => {
+        it('Empty request', async () => {
             const response = await request.post('/movies').expect(401)
             expect(response.body).toEqual({code: 401, message: 'Unauthorized'});
         })
-        test('Unauthorized request with body', async () => {
+        it('Unauthorized request with body', async () => {
             const response = await request.post('/movies').send({title:'star wars'}).expect(401)
             expect(response.body).toEqual({code: 401, message: 'Unauthorized'});
 
         })
-        test('Authorized request', async () => {
+        it('Authorized request', async () => {
             const response = await request.post('/movies').set("Authorization",`Bearer ${token}`).expect(400)
             expect(response.body).toEqual({code: 400, message: 'Title is required'});
         })
 
-        test('Authorized request with body', async () => {
+        it('Authorized request with body', async () => {
             const response = await request
                 .post('/movies')
                 .set("Authorization",`Bearer ${token}`)
@@ -101,16 +101,16 @@ describe('Movies controller',()=>{
             expect(response.body).toEqual({code: 400, message: 'Title is required'});
         })
 
-        test('Authorized request with correct body, but movie does not exist', async () => {
+        it('Authorized request with correct body, but movie does not exist', async () => {
             const response = await request
                 .post('/movies')
                 .set("Authorization",`Bearer ${token}`)
-                .send({title:'test'})
+                .send({title:'it'})
                 .expect(400)
             expect(response.body).toEqual({code: 400, message: 'Movie does not exist'});
         })
 
-        test('Authorized request with correct body', async () => {
+        it('Authorized request with correct body', async () => {
             const response = await request
                 .post('/movies')
                 .set("Authorization",`Bearer ${token}`)
@@ -118,5 +118,5 @@ describe('Movies controller',()=>{
                 .expect(200)
         })
     })
-
+    
 })
