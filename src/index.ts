@@ -60,4 +60,6 @@ createDatabaseConnection().then(db => {
         app.listen(3000)
         console.log('Server started on port 3000')
     })
+}).catch((e)=>{
+    console.error('Failed to start the server',e)
 })

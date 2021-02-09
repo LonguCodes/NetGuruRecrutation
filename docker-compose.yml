@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - published: ${APP_PORT:-3000}
+        target: 3000
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+  database:
+    image: mongo
