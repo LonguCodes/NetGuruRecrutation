@@ -6,7 +6,6 @@ import {Server} from "http";
 import jwt from 'jsonwebtoken'
 import {AuthBindings} from "../../core/auth/bindings";
 
-jest.mock("../../datasources/database.config.ts")
 describe('Movies controller',()=>{
     let request: supertest.SuperTest<supertest.Test>;
     let app: Server;

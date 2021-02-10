@@ -66,9 +66,13 @@ export function createApplication() {
 
 
 export async function startApplication() {
-    const app = createApplication();
-    await createDatabaseConnection()
+
     GlobalContext.get().bind(DatasourceBindings.Axios, createAxios());
     GlobalContext.get().bind(AuthBindings.Secret,  replaceEmpty(process.env.JWT_SECRET, 'secret') );
+
+
+
+    const app = createApplication();
+    await createDatabaseConnection()
     return app.listen(3000)
 }
