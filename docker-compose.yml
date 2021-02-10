@@ -10,6 +10,6 @@ services:
         target: 3000
     environment:
       JWT_SECRET: ${JWT_SECRET}
-      DATABASE: database
+      DATABASE: ${DATABASE:-database}
   database:
     image: mongo
